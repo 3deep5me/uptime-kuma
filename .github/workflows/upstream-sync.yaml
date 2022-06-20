@@ -23,6 +23,7 @@ jobs:
 
           git remote add upstream https://github.com/louislam/uptime-kuma.git
           git fetch upstream
+          git fetch upstream --tags
 
           # Neither forget the -b opt,
           git checkout -b origin/main
@@ -32,3 +33,4 @@ jobs:
           git checkout main
           git merge --no-edit upstream/master
           git push origin main
+          git push origin main --tags
