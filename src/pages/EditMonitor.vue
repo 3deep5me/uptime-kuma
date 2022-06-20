@@ -369,17 +369,17 @@
                                 </div>
 
                                 <!-- HTTP Auth -->
-                                <h4 class="mt-5 mb-2">{{ $t("HTTP Authentication") }}</h4>
+                                <h4 class="mt-5 mb-2">{{ $t("Authentication") }}</h4>
 
                                 <!-- Method -->
                                 <div class="my-3">
                                     <label for="method" class="form-label">{{ $t("Method") }}</label>
                                     <select id="method" v-model="monitor.authMethod" class="form-select">
                                         <option :value="null">
-                                            None
+                                            {{ $t("None") }}
                                         </option>
                                         <option value="basic">
-                                            Basic
+                                            {{ $t("HTTP Basic Auth") }}
                                         </option>
                                         <option value="ntlm">
                                             NTLM
@@ -404,7 +404,7 @@
 
                                         <div class="my-3">
                                             <label for="basicauth" class="form-label">{{ $t("Workstation") }}</label>
-                                            <input id="basicauth-workstation" v-model="monitor.authWorkstation" type="password" autocomplete="new-password" class="form-control" :placeholder="$t('Workstation')">
+                                            <input id="basicauth-workstation" v-model="monitor.authWorkstation" type="text" class="form-control" :placeholder="$t('Workstation')">
                                         </div>
                                     </template>
                                 </template>
@@ -573,6 +573,7 @@ export default {
         this.dnsresolvetypeOptions = dnsresolvetypeOptions;
     },
     methods: {
+        /** Initialize the edit monitor form */
         init() {
             if (this.isAdd) {
 
@@ -583,6 +584,7 @@ export default {
                     method: "GET",
                     interval: 60,
                     retryInterval: this.interval,
+                    databaseConnectionString: "Server=<hostname>,<port>;Database=<your database>;User Id=<your user id>;Password=<your password>;Encrypt=<true/false>;TrustServerCertificate=<Yes/No>;Connection Timeout=<int>",
                     maxretries: 0,
                     notificationIDList: {},
                     ignoreTls: false,
@@ -630,6 +632,10 @@ export default {
 
         },
 
+        /**
+         * Validate form input
+         * @returns {boolean} Is the form input valid?
+         */
         isInputValid() {
             if (this.monitor.body) {
                 try {
@@ -650,6 +656,10 @@ export default {
             return true;
         },
 
+        /**
+         * Submit the form data for processing
+         * @returns {void}
+         */
         async submit() {
             this.processing = true;
 
@@ -694,14 +704,20 @@ export default {
             }
         },
 
-        // Added a Notification Event
-        // Enable it if the notification is added in EditMonitor.vue
+        /**
+         * Added a Notification Event
+         * Enable it if the notification is added in EditMonitor.vue
+         * @param {number} id ID of notification to add
+         */
         addedNotification(id) {
             this.monitor.notificationIDList[id] = true;
         },
 
-        // Added a Proxy Event
-        // Enable it if the proxy is added in EditMonitor.vue
+        /**
+         * Added a Proxy Event
+         * Enable it if the proxy is added in EditMonitor.vue
+         * @param {number} id ID of proxy to add
+         */
         addedProxy(id) {
             this.monitor.proxyId = id;
         },
