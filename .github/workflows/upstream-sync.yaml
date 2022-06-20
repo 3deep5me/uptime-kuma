@@ -4,6 +4,8 @@ on:
   schedule:
     - cron:  '0 7 * * *' # At 07:00, every day
   workflow_dispatch:  # click the button on Github repo!
+  push:
+    branches: [ main ]
 
 jobs:
   sync_latest_from_upstream:
@@ -18,7 +20,7 @@ jobs:
       with:
         # optional: set the branch to checkout,
         # sync action checks out your 'target_sync_branch' anyway
-        ref:  master
+        ref:  main
         # REQUIRED if your upstream repo is private (see wiki)
         persist-credentials: false
 
